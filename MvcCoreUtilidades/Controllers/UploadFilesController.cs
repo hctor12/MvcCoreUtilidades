@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MvcNetCoreUtilidades.Helpers;
 
 namespace MvcCoreUtilidades.Controllers
 {
     public class UploadFilesController : Controller
     {
-        private IWebHostEnvironment hostEnvironment;
+        private HelperPathProvider helper;
 
-        public UploadFilesController(IWebHostEnvironment hostEnvironment)
+        public UploadFilesController(HelperPathProvider helper)
         {
-            this.hostEnvironment = hostEnvironment;
+            this.helper = helper;
         }
 
         public IActionResult Index()
@@ -24,16 +25,19 @@ namespace MvcCoreUtilidades.Controllers
         [HttpPost]
         public async Task<IActionResult> SubirFile(IFormFile fichero)
         {
-            string rootFolder = this.hostEnvironment.WebRootPath;
             string fileName = fichero.FileName;
-            string path = Path.Combine(rootFolder, "uploads", fileName);
-
+            string path =
+            this.helper.MapPath(fileName, Folders.Images);
+            string urlPath =
+            this.helper.MapUrlPath(fileName, Folders.Images);
+            //PARA SUBIR FICHEROS UTILIZAMOS Stream 
             using (Stream stream = new FileStream(path, FileMode.Create))
             {
                 await fichero.CopyToAsync(stream);
             }
-            ViewData["MENSAJE"] = "Fichero subido a " + path;
-            ViewData["FILENAME"] = fileName;
+            ViewData["MENSAJE"] = "Fichero subido a "
+            + path;
+            ViewData["URLPATH"] = urlPath;
             return View();
         }
     }
