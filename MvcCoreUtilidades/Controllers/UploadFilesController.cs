@@ -30,7 +30,7 @@ namespace MvcCoreUtilidades.Controllers
             this.helper.MapPath(fileName, Folders.Images);
             string urlPath =
             this.helper.MapUrlPath(fileName, Folders.Images);
-            //PARA SUBIR FICHEROS UTILIZAMOS Stream 
+            //PARA SUBIR FICHEROS UTILIZAMOS Str    eam 
             using (Stream stream = new FileStream(path, FileMode.Create))
             {
                 await fichero.CopyToAsync(stream);

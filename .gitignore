@@ -363,6 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # AppSettings
-.MvcCoreUtilidades/appsettings.json
-
 /MvcCoreUtilidades/appsettings.json
